@@ -24,6 +24,7 @@
        // Date         : 2022/02/01
        //  
        // Narrative:  user passes in...
+       //            - indent char(1) - number of spaces to indent (0=continuous string)
        //            - stream filename
        //
        // NOTE: this program expects the python script to reside in...
