@@ -24,9 +24,10 @@
        // Date         : 2022/02/01
        //  
        // Narrative:  user passes in...
+       //            - indent char(1) - number of spaces to indent (0=continuous string)
        //            - stream filename
        //
-       // NOTE: this program expects the python script to reside in...
+       // NOTE: this program expects the pyton script to reside in...
        //       /jvaughn/source/jsonpretty/jsonpretty.py
        //       if the location changes, please update the g_pythonScript variable value.
        //--------------------------------------------------------------------------------------------
@@ -34,6 +35,7 @@
        ctl-opt debug (*input);
        ctl-opt dftactgrp (*no);
        
+
        //-----------------------------------------------------------------------
        // SQL Default Options                                                   
        //-----------------------------------------------------------------------
@@ -47,6 +49,7 @@
        // Program interface                                                
        //-----------------------------------------------------------------------
        dcl-pi jsonPretty;
+         p_indent        char(1)              const;
          p_fileName      char(50)             const;
          o_msgId         char(7);
          o_msgText       char(80);
@@ -110,8 +113,9 @@
                               ''''                                  +
                                   %trim(g_pathToPython) + ' '       +
                                   %trim(g_pythonScript) + ' '       +
+                                  %trim(p_indent)       + ' '       +
                                   %trim(p_fileName)                 +
-                             ''''                                  +
+                             ''''                                   +
                            ')';
 
          callp run(g_command:%Size(g_command));
