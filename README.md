@@ -26,4 +26,7 @@
        // Narrative:  user passes in...
        //            - stream filename
        //
+       // NOTE: this program expects the python script to reside in...
+       //       /jvaughn/source/jsonpretty/jsonpretty.py
+       //       if the location changes, please update the g_pythonScript variable value.
        //--------------------------------------------------------------------------------------------
