@@ -9,9 +9,9 @@ exec sql
   closqlcsr = *endmod,
   datfmt    = *iso;
 
-dcl-pi hashitr;
-  p_pass          char(32)              const;
-  o_hash          char(64);
+dcl-pi jsonPretty;
+  p_jsonIn        char(32000)             const;
+  o_jsonOut       char(32000);
 end-pi;
 
 dcl-s g_command          char(1000);
@@ -28,7 +28,7 @@ end-pr;
 
 setUp();
 executePythonScript();
-getHashValue();
+getJsonPretty();
 
 *inlr = *on;
 return;
@@ -40,7 +40,7 @@ return;
 dcl-proc setUp;
 
 g_pathToPython = 'python3';
-g_pythonScript = '/home/jvaughn/hashit.py';
+g_pythonScript = '/home/jvaughn/jsonpretty.py';
 
 g_command = 'OVRDBF FILE(STDOUT) TOFILE(QTEMP/QSTDOUT) ' +
                    'OVRSCOPE(*JOB) '                     +
@@ -62,7 +62,7 @@ g_command = 'Qsh Cmd('                                     +
                      ''''                                  +
                          %trim(g_pathToPython) + ' '       +
                          %trim(g_pythonScript) + ' '       +
-                         %trim(p_pass)                     +
+                         %trim(p_jsonIn)                     +
                      ''''                                  +
                        ')';
 
@@ -71,14 +71,14 @@ callp run(g_command:%Size(g_command));
 end-proc executePythonScript;
 
 //--------------------------------------------------------
-// getHashValue        subprocedure
+// getJsonPretty       subprocedure
 //--------------------------------------------------------
 
-dcl-proc getHashValue;
+dcl-proc getJsonPretty;
 
 exec sql
   select srcdta
-    into :o_hash
+    into :o_jsonPretty
   from qtemp.qstdout
   fetch first 1 row only;
 
